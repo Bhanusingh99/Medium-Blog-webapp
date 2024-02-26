@@ -1,6 +1,9 @@
+"use client"
 import Link from 'next/link';
+import { useState } from 'react';
 
 const LogIn = () => {
+  const[error,setError] = useState("My name is don");
   return (
     <section className="bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -38,12 +41,13 @@ const LogIn = () => {
                   required
                 />
               </div>
+              {error && <p className='text-red-600 my-[-2rem] underline'>Error: {error}</p>}
               <div className="flex items-center justify-between">
                 <Link href="#" className="text-sm font-medium text-primary-600 hover:underline text-purple-500">Forgot password?</Link>
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-purple-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full text-white bg-purple-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center"
               >
                 Sign in
               </button>

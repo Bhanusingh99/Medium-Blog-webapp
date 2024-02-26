@@ -16,7 +16,7 @@ export async function POST(request:NextRequest){
         const user = await User.findOne({email});
         if(!user){
             return NextResponse.json({
-                message:"Create does not exits",
+                message:"Create a account, user does not exits",
                 success:false
             },{status:400})
         }
