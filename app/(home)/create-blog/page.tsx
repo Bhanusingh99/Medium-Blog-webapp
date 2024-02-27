@@ -1,34 +1,17 @@
 "use client"
-import React, { useState, useRef, useMemo } from 'react';
-import JoditEditor from 'jodit-react';
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  })
-})
-
-function CreateBlog() {
+const CreateBlog = () => {
+  const [title,setTitle] = useState("");
+  const [description,setDescription] = useState("");
+  const [content,setContent] = useState("");
+  const [tag,setTags] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
 
-  const options = ['Dev', 'ui-ux', 'Tech', 'Start-up'];
+  const options = ['Dev', 'ui-ux', 'Startup', 'Tech'];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -39,74 +22,37 @@ function CreateBlog() {
     setIsOpen(false);
   };
 
+  return(
+    <div className="bg-gray-900  pt-20 pb-5 px-8">
+        <h1 className="text-[2.25rem] text-white font-semibold ">Create A Blog</h1>
+        <div>
+          <p className="text-white text-[1.05rem] mt-5 mb-1">Title</p>
+          <input placeholder="Enter your title here" className="w-full 
+          py-2 px-2 text-white outline-none border bg-transparent"/>
+        </div>
 
-  const editor = useRef(null);
-	const [content, setContent] = useState('');
+        <div>
+          <p className="text-white text-[1.05rem] mt-7 mb-1">Description</p>
+          <input placeholder="Enter your title here" className="w-full 
+          py-2 px-2 text-white outline-none border bg-transparent "/>
+        </div>
 
-  // ...
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
-  })
- 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(selectedOption,content)  
-  }
+        <div>
+          <p className="text-white text-[1.05rem] mt-7 mb-1">Content</p>
+          <textarea placeholder="Enter your title here" className="w-full 
+          py-2 px-2 text-white outline-none border bg-transparent h-24"/>
+        </div>
 
-
-  return (
-    <>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-[5.7rem] bg-gray-900 px-12">
-      <h1 className='text-[2.5rem] text-white font-semibold'>Create A Blog</h1>
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-white">Username</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your title" {...field} className="border-white text-white"/>
-              </FormControl>
-              <FormDescription className="text-white">
-                This is your public display name.
-              </FormDescription>
-              <FormMessage className="text-red-600"/>
-            </FormItem>
-          )}
-        />
-
-        <JoditEditor
-              ref={editor}
-              value={content}
-              className="bg-transparent"
-              config={{
-                height: 400,
-                // Set height in pixels within config
-                // ... other config options
-              }}
-              //@ts-ignore
-              tabIndex={10} // tabIndex of textarea
-              onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-              onChange={newContent => setContent(newContent)}
-            />
-
-
-      <div className="dropdown">
-      <div className="dropdown-box text-white border w-full py-2 px-4" onClick={toggleDropdown}>
-        {selectedOption ? selectedOption : 'Choose Tag'}
+      <div className="dropdown mt-[1.35rem]">
+        <h1 className="text-white mb-2">Tags</h1>
+      <div className="dropdown-box text-white border py-2 px-2" onClick={toggleDropdown}>
+        {selectedOption ? selectedOption : 'Select an option'}
       </div>
 
       {isOpen && (
-        <div className="dropdown-options bg-gray-800 w-full cursor-pointer">
-          {options.map((option,index) => (
-            <div key={index} onClick={() => handleOptionClick(option)} className='text-white my-1 px-2 py-1 
-            cursor-pointer border'>
+        <div className="dropdown-options text-white ">
+          {options.map((option) => (
+            <div key={option} onClick={() => handleOptionClick(option)} className="border px-2 py-2 mt-1">
               {option}
             </div>
           ))}
@@ -114,13 +60,8 @@ function CreateBlog() {
       )}
     </div>
 
-        <Button type="submit" className="bg-purple-500 hover:bg-purple-600 px-6 
-        rounded-xl text-white">
-          Submit
-        </Button>
-      </form>
-    </Form>
-    </>
+    <button className="my-8 bg-purple-500 text-white py-2 px-8 rounded-xl">Submit</button>
+    </div>
   )
 }
 
