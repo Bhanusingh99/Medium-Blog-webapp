@@ -1,82 +1,38 @@
-"use client"
+import React, { useState } from 'react';
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+const DropdownMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  const options = ['Dev', 'ui-ux', 'Tech', 'Start-up'];
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
-export function DropDownMenu() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const handleOptionClick = (option:any) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w32 bg-purple-500 text-white"
-        >
-          NextJs
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w32 p-0 bg-gray-800">
-        <Command>
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-              <CommandItem className="text-white">
-                Profile
-              </CommandItem>
-              <CommandItem>
-                Log-in
-              </CommandItem>
-              <CommandItem>
-                Log-out
-              </CommandItem>
-              <CommandItem>
-                Sign-up
-              </CommandItem>
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  )
-}
+    <div className="dropdown">
+      <div className="dropdown-box text-white border w-full py-2 px-4" onClick={toggleDropdown}>
+        {selectedOption ? selectedOption : 'Choose Tag'}
+      </div>
+
+      {isOpen && (
+        <div className="dropdown-options bg-gray-800 w-full cursor-pointer">
+          {options.map((option,index) => (
+            <div key={index} onClick={() => handleOptionClick(option)} className='text-white my-1 px-2 py-1 
+            cursor-pointer border'>
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default DropdownMenu;
