@@ -10,9 +10,9 @@ const Navbar = () => {
             <h1 className='text-4 font-semibold text-white'>Medium</h1>
         </Link>
 
-        <div className='flex sm:hidden'>
-        <Link href={'/'}>
-            <p className='text-white navbarItems text-[.8rem]'>Home</p>
+        <div className='flex max-sm'>
+        <Link href={'/create-blog'}>
+            <p className='text-white navbarItems text-[.8rem]'>Create-Blog</p>
         </Link>
 
         <Link href={'/blogs'}>
@@ -25,7 +25,13 @@ const Navbar = () => {
         </div>
 
         <div className='flex items-center'>
-        <DropDownMenu/>
+          <Link href={'/profile'}>
+              <p className='text-[1.75rem] text-white navbarItems'>Profile</p>
+          </Link>
+
+          <Link href={'/log-out'}>
+              <p className='text-[1.75rem] text-white navbarItems'>Log-out</p>
+          </Link>
         </div>
       </div>
     </div>
