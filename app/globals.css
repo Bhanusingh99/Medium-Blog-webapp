@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.navbar{
+  justify-content: space-around;
+  padding: 12px 0;
+}
+.navbarItems{
+  margin-right: 18px;
+}
+ 
+.w32{
+  width: 128px;
+  color: white;
+}

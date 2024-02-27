@@ -5,9 +5,7 @@ export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
   const isPublic = path === "/log-in" || path === '/sign-up'; // Ensure path comparison is accurate
 
-  console.log("ye code yha tak chla");
   let cookie = request.cookies.get('token')?.value;
-  console.log(cookie);
 
   if (isPublic && cookie) {
     const origin = request.nextUrl.origin; // Get the origin for absolute URL
@@ -24,7 +22,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/create-blog',
-    '/profile',
+    '/Profile',
     '/sign-up',
     '/log-in'
   ]

@@ -1,15 +1,55 @@
 "use client"
 import Link from 'next/link';
 import { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const LogIn = () => {
-  const[error,setError] = useState("My name is don");
+  const router = useRouter();
+  const[error,setError] = useState("");
+  const [user,setUser] = useState({
+    email:"",
+    password:""
+  })
+
+  const handleChange = (e:any) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value
+    }));
+  };
+
+  const logIn = async (e:any) => {
+    e.preventDefault()
+
+    try {
+      const userData = {
+        email: user.email,
+        password: user.password
+      };
+
+      const response = await axios.post("/api/user/log-in", userData);
+      console.log(response.data)
+      console.log(response.data.message)
+      setError(response.data.message)
+      if(response.data.success){
+        localStorage.setItem("token",response.data.token)
+        return router.push('/sign-up')
+      }
+      
+    } catch (error:any) {
+      console.log(error)
+    }
+  }
+
   return (
-    <section className="bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section className="bg-gray-900 py-6">
+      <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-16">
         <Link href="/">
           <p className="flex items-center mb-6 text-2xl font-semibold text-white">
-            <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
+            <Image className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" height={20} width={20} />
             Blog
           </p>
         </Link>
@@ -19,34 +59,38 @@ const LogIn = () => {
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6" action="#">
-              <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-transparent border border-gray-300 text-white sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="name@company.com"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-transparent border border-gray-300 text-white sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  required
-                />
-              </div>
+            <div>
+        <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          value={user.email}
+          onChange={handleChange}
+          className="bg-transparent border border-gray-300 text-white sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+          placeholder="name@company.com"
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          value={user.password}
+          onChange={handleChange}
+          placeholder="••••••••"
+          className="bg-transparent border border-gray-300 text-white sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+          required
+        />
+      </div>
               {error && <p className='text-red-600 my-[-2rem] underline'>Error: {error}</p>}
               <div className="flex items-center justify-between">
                 <Link href="#" className="text-sm font-medium text-primary-600 hover:underline text-purple-500">Forgot password?</Link>
               </div>
               <button
-                type="submit"
+                onClick={(e) => (logIn(e))}
                 className="w-full text-white bg-purple-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-3 text-center"
               >
                 Sign in
