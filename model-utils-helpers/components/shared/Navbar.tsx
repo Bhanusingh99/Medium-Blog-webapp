@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
-import { DropDownMenu } from '../DropDown';
+// import { DropDownMenu } from '../DropDown';
 
 const Navbar = () => {
   return (
-    <div className='fixed justify-around top-0 w-full bg-gray-800 h-32 z-10 px-4'>
+    <div className='fixed justify-around top-0 w-full bg-gray-800  z-10 px-4'>
       <div className='flex items-center justify-between navbar'>
         <Link href={'/'}>
             <h1 className='text-4 font-semibold text-white'>Medium</h1>

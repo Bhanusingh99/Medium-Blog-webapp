@@ -1,4 +1,5 @@
 "use client"
+import axios from "axios";
 import { useState } from "react";
 
 
@@ -21,6 +22,22 @@ const CreateBlog = () => {
     setSelectedOption(option);
     setIsOpen(false);
   };
+
+  const submitBlog = async() => {
+    try {
+      const res = await axios.post('/api/user/create-blog',{
+        title,
+        tag,
+        description,
+        content
+      })
+      console.log(res)
+    } catch (error) {
+      console.log(error);
+      throw error
+    }
+  }
+
 
   return(
     <div className="bg-gray-900  pt-20 pb-5 px-8">
@@ -60,7 +77,7 @@ const CreateBlog = () => {
       )}
     </div>
 
-    <button className="my-8 bg-purple-500 text-white py-2 px-8 rounded-xl">Submit</button>
+    <button className="my-8 bg-purple-500 text-white py-2 px-8 rounded-xl" onClick={() => {submitBlog()}}>Submit</button>
     </div>
   )
 }
